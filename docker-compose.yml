@@ -1,0 +1,35 @@
+services:
+  expo-app:
+    build: .
+    container_name: react_native_expo
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./app-recetario:/app
+      - /app/node_modules
+    # 1. Esto le da salida real a internet al contenedor en Linux
+    network_mode: "host"
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    environment:
+      - NODE_ENV=development
+    stdin_open: true
+    tty: true
+    depends_on:
+      db_postgresql
+  db:
+    image: postgres:latest
+    container_name: my_postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: 'asgard'
+      POSTGRES_PASSWORD: 'admin'
+      PGDATA: /var/lib/postgres/data
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data_pg:/var/lib/postgresql/data
+
+volumes:
+  db_data_pg:
