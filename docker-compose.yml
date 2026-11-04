@@ -1,23 +1,35 @@
 services:
   expo-app:
-    build: .
+    build:
+      context: ./app-recetario
+      dockerfile: Dockerfile
     container_name: react_native_expo
+    network_mode: "host"       # Mantiene la red transparente en Debian
     ports:
       - "8081:8081"
     volumes:
       - ./app-recetario:/app
       - /app/node_modules
-    # 1. Esto le da salida real a internet al contenedor en Linux
-    network_mode: "host"
-    dns:
-      - 8.8.8.8
-      - 1.1.1.1
     environment:
       - NODE_ENV=development
     stdin_open: true
     tty: true
     depends_on:
-      db_postgresql
+      - db
+
+  backend-api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: nestjs_backend
+    ports:
+      - "3000:3000"           # Puerto típico de NestJS
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - DATABASE_HOST=db  
   db:
     image: postgres:latest
     container_name: my_postgres_db
@@ -30,6 +42,5 @@ services:
       - "5432:5432"
     volumes:
       - db_data_pg:/var/lib/postgresql/data
-
 volumes:
   db_data_pg:
