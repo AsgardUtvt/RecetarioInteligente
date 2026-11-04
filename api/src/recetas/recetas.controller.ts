@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { RecetasService } from './recetas.service';
-import { CreateRecetaDto } from './dto/create-receta.dto';
-import { UpdateRecetaDto } from './dto/update-receta.dto';
+import { RecetasService } from './recetas.service.js';
+import { CreateRecetaDto } from './dto/create-receta.dto.js';
+import { UpdateRecetaDto } from './dto/update-receta.dto.js';
 
 @Controller('recetas')
 export class RecetasController {
