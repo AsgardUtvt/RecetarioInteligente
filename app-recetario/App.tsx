@@ -1,6 +1,7 @@
+<<<<<<< HEAD
 import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {StackLoginNavigator
+import {
 
 export default function App() {
 
