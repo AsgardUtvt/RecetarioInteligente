@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
 import axios from 'axios';
+import {LoginScreen} from './src/screens/LoginScreen';
+import {NavigationContainer} from '@react-navigation/native';
+import {StackLoginNavigator} from './src/navigator/StackLoginNavigator';
 
 export default function App() {
   const [meals, setMeals] = useState<any[]>([]);
@@ -12,35 +15,9 @@ export default function App() {
   }, []);
 
   return (
-    <View 
-        style={styles.container}
-    >
-      <Text 
-        style={styles.header}
-      >
-        Recetas
-      </Text>
-
-      <FlatList
-        data={meals}
-        keyExtractor={(item) => item.idMeal}
-        renderItem={({ item }) => (
-          <View 
-              style={styles.card}
-          >
-            <Image 
-                source={{ uri: item.strMealThumb }} style={styles.img} 
-            />
-            <Text 
-                style={styles.title}
-            >
-                {item.strMeal}
-            </Text>
-          </View>
-        )}
-      />
-
-    </View>
+    <NavigationContainer>
+        <StackLoginNavigator />
+    </NavigationContainer>
   );
 }
 
@@ -70,3 +47,36 @@ const styles = StyleSheet.create({
       marginTop: 5 
   },
 });
+/*
+ *
+      
+    <View 
+        style={styles.container}
+    >
+      <Text 
+        style={styles.header}
+      >
+        Recetas
+      </Text>
+
+      <FlatList
+        data={meals}
+        keyExtractor={(item) => item.idMeal}
+        renderItem={({ item }) => (
+          <View 
+              style={styles.card}
+          >
+            <Image 
+                source={{ uri: item.strMealThumb }} style={styles.img} 
+            />
+            <Text 
+                style={styles.title}
+            >
+                {item.strMeal}
+            </Text>
+          </View>
+        )}
+      />
+
+    </View>
+ * */

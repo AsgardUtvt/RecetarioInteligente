@@ -2,8 +2,13 @@ import { useEffect } from 'react';
 import { View, FlatList, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { useMealDb } from '../../hooks/useMealDb';
 import { RecipeCard } from '../../components/RecipeCard';
+import {StackLoginParams} from '../../navigator/StackLoginNavigator';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export const HomeRecetas = () => {
+interface Props extends NativeStackScreenProps<StackLoginParams,'HomeRecetas'>{};
+
+export const HomeRecetas = ({navigation}: Props) => {
+
   const { meals, isLoading, searchMeals } = useMealDb();
 
   useEffect(() => {
