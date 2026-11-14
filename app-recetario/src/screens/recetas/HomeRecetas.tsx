@@ -4,6 +4,8 @@ import { useMealDb } from '../../hooks/useMealDb';
 import { RecipeCard } from '../../components/RecipeCard';
 import {StackLoginParams} from '../../navigator/StackLoginNavigator';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {MaterialTabsCategorais} from '../../navigator/MaterialTabsCategorias';
 
 interface Props extends NativeStackScreenProps<StackLoginParams,'HomeRecetas'>{};
 
@@ -19,6 +21,9 @@ export const HomeRecetas = ({navigation}: Props) => {
 
   return (
     <View style={styles.container}>
+        <View>
+            <MaterialTabsCategorais />
+        </View>
       <Text style={styles.header}>Recetas Destacadas</Text>
       <FlatList
         data={meals}
