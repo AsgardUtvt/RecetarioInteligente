@@ -13,7 +13,8 @@ export const StackLoginNavigator = () => {
     
     return(
         <Stack.Navigator
-            initialRouteName="LoginScreen"
+            initialRouteName="HomeRecetas"
+            //initialRouteName="LoginScreen"
         >
             <Stack.Screen 
                 name="LoginScreen"

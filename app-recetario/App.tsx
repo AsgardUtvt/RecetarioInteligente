@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
 import axios from 'axios';
-import {LoginScreen} from './src/screens/LoginScreen';
+import { LoginScreen } from './src/screens/LoginScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {StackLoginNavigator} from './src/navigator/StackLoginNavigator';
 
