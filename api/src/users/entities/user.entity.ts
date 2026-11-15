@@ -1,1 +1,7 @@
-export class User {}
+import { Entity } from 'typeorm';
+
+export class User {
+
+    
+
+}

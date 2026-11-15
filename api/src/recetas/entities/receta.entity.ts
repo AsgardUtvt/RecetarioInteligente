@@ -1,1 +1,4 @@
-export class Receta {}
+export class Receta {
+
+
+}
