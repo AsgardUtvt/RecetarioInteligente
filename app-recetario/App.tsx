@@ -1,18 +1,8 @@
-import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
-import axios from 'axios';
-import { LoginScreen } from './src/screens/LoginScreen';
 import {NavigationContainer} from '@react-navigation/native';
-import {StackLoginNavigator} from './src/navigator/StackLoginNavigator';
+import { StackLoginNavigator } from './src/navigator/StackLoginNavigator';
 
 export default function App() {
-  const [meals, setMeals] = useState<any[]>([]);
-
-  useEffect(() => {
-    axios.get('https://www.themealdb.com/api/json/v1/1/search.php?s=')
-      .then(res => setMeals(res.data.meals))
-      .catch(err => console.log(err));
-  }, []);
 
   return (
     <NavigationContainer>
