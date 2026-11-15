@@ -1,4 +1,3 @@
-import { createStaticNavigation } from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import { LoginScreen } from "../screens/LoginScreen";
 import { HomeRecetas } from "../screens/recetas/HomeRecetas";
@@ -13,8 +12,7 @@ export const StackLoginNavigator = () => {
     
     return(
         <Stack.Navigator
-            initialRouteName="HomeRecetas"
-            //initialRouteName="LoginScreen"
+            initialRouteName="LoginScreen"
         >
             <Stack.Screen 
                 name="LoginScreen"
