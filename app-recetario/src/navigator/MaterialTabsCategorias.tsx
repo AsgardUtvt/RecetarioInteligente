@@ -1,5 +1,5 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { CategoriaScreen } from "../screens/recetas/CategoraScreen";
+import { CategoriaScreen } from "../screens/recetas/CategoriaScreen";
 import { HomeRecetas } from "../screens/recetas/HomeRecetas";
 
 const Tab = createMaterialTopTabNavigator();
@@ -14,6 +14,7 @@ export const MaterialTabsCategorais = () => {
 
     return(
         <Tab.Navigator>
+            <Tab.Screen name='HomeRecetas' component={HomeRecetas}/>
             <Tab.Screen name="Categoria" component={CategoriaScreen} />
         </Tab.Navigator>
     );
