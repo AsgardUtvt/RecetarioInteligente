@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn, type Relation } from "typeorm";
 import {OneToMany} from "typeorm/browser";
 import {Receta} from "../../recetas/entities/receta.entity.js";
 
@@ -8,19 +8,25 @@ export class User {
     @PrimaryGeneratedColumn()
     id_user: number;
 
-    @Column()
+    @Column({type: 'varchar', length:'255', unique: true})
+    email: string;
+
+    @Column({type: 'varchar', length:'255'})
     nombre: string;
 
-    @Column()
+    @Column({type: 'varchar', length:'255'})
     paterno: string;
 
-    @Column()
+    @Column({type: 'varchar', length:'255'})
     materno: string;
 
-    @Column()
-    foto: Buffer;
+    @Column({type: 'text'})
+    foto: string;
 
-    @OneToMany(()=> Receta, (receta) => receta.users)
-    recetas: Receta[];
+    @OneToMany('Receta', (receta: Receta) => receta.users)
+    recetas: Relation<Receta[]>;
+
+    @Column({type: 'varchar', length: '255'})
+    password: string;
 
 }

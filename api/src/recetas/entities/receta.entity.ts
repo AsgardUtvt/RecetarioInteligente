@@ -7,7 +7,7 @@ export class Receta {
     @PrimaryGeneratedColumn()
     id_receta: number;
 
-    @PrimaryColumn({type: 'nvarchar', length: 'MAX'})
+    @Column({type: 'varchar', length: '500'})
     idMeal: number;
 
     @Column({type: 'text'})
@@ -46,17 +46,18 @@ export class Receta {
     @Column({type: 'text'})
     strSource: string;
 
-    @Column({type: 'bytea'})
-    strImageSource: Buffer;
+    @Column({type: 'text'})
+    strImageSource: string;
 
     @Column({type: 'text'})
     strCreativeCommonsConfirmed: string;
     
-    @Column({type: 'datetime' })
+    @Column({type: 'timestamp' })
     dateModified: Date;
     
-    @ManyToOne(() =>User, (user) => user.recetas)
+    @ManyToOne('User', (user: User) => user.recetas)
     @JoinColumn({name: 'id_user'})
     users: User;
+
 
 }

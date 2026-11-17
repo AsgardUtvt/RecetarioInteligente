@@ -9,39 +9,48 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { OneToMany } from "typeorm/browser";
-import { Receta } from "../../recetas/entities/receta.entity.js";
 let User = class User {
     id_user;
+    email;
     nombre;
     paterno;
     materno;
     foto;
     recetas;
+    password;
 };
 __decorate([
     PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
 ], User.prototype, "id_user", void 0);
 __decorate([
-    Column(),
+    Column({ type: 'varchar', length: '255', unique: true }),
+    __metadata("design:type", String)
+], User.prototype, "email", void 0);
+__decorate([
+    Column({ type: 'varchar', length: '255' }),
     __metadata("design:type", String)
 ], User.prototype, "nombre", void 0);
 __decorate([
-    Column(),
+    Column({ type: 'varchar', length: '255' }),
     __metadata("design:type", String)
 ], User.prototype, "paterno", void 0);
 __decorate([
-    Column(),
+    Column({ type: 'varchar', length: '255' }),
     __metadata("design:type", String)
 ], User.prototype, "materno", void 0);
 __decorate([
-    Column(),
-    __metadata("design:type", Buffer)
+    Column({ type: 'text' }),
+    __metadata("design:type", String)
 ], User.prototype, "foto", void 0);
 __decorate([
-    OneToMany(() => Receta, (receta) => receta.users),
-    __metadata("design:type", Array)
+    OneToMany('Receta', (receta) => receta.users),
+    __metadata("design:type", Object)
 ], User.prototype, "recetas", void 0);
+__decorate([
+    Column({ type: 'varchar', length: '255' }),
+    __metadata("design:type", String)
+], User.prototype, "password", void 0);
 User = __decorate([
     Entity()
 ], User);

@@ -4,26 +4,61 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 import { Injectable } from '@nestjs/common';
+import { User } from './entities/user.entity.js';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import bcryp from 'bcryptjs';
 let UsersService = class UsersService {
-    create(createUserDto) {
-        return 'This action adds a new user';
+    userRepository;
+    constructor(userRepository) {
+        this.userRepository = userRepository;
     }
-    findAll() {
-        return `This action returns all users`;
+    async login(data) {
+        try {
+            const user = await this.userRepository.findOneBy({ email: data.email });
+            if (user?.password && data?.password) {
+            }
+        }
+        catch (error) {
+            return false;
+        }
     }
-    findOne(id) {
-        return `This action returns a #${id} user`;
+    async create(data) {
+        const saltOrRounds = 10;
+        const hash = await bcryp.hash(data.password, saltOrRounds);
+        const new_data = { ...data, password: hash };
+        const register = this.userRepository.create(new_data);
+        await this.userRepository.save(register);
     }
-    update(id, updateUserDto) {
-        return `This action updates a #${id} user`;
+    async findAll() {
+        return await this.userRepository.find();
     }
-    remove(id) {
-        return `This action removes a #${id} user`;
+    async findOne(id_user) {
+        return await this.userRepository.findOneBy({ id_user });
+    }
+    async update(id_user, data) {
+        if (data.password) {
+            const saltOrRounds = 10;
+            const hash = await bcryp.hash(data.password, saltOrRounds);
+            const new_data = { ...data, password: hash };
+            return await this.userRepository.update(id_user, new_data);
+        }
+    }
+    async remove(id_user) {
+        return await this.userRepository.delete(id_user);
     }
 };
 UsersService = __decorate([
-    Injectable()
+    Injectable(),
+    __param(0, InjectRepository(User, 'postgres-connection')),
+    __metadata("design:paramtypes", [Repository])
 ], UsersService);
 export { UsersService };
 //# sourceMappingURL=users.service.js.map

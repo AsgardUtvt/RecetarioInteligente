@@ -14,7 +14,7 @@ export declare class Receta {
     strIngredient: string;
     strMeasure: string;
     strSource: string;
-    strImageSource: Buffer;
+    strImageSource: string;
     strCreativeCommonsConfirmed: string;
     dateModified: Date;
     users: User;

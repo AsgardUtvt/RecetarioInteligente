@@ -1,26 +1,56 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto.js';
 import { UpdateUserDto } from './dto/update-user.dto.js';
+import {User} from './entities/user.entity.js';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Repository} from 'typeorm';
+import bcryp from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
-  }
+    constructor(
+        @InjectRepository(User, 'postgres-connection')
+        private userRepository: Repository<User>
 
-  findAll() {
-    return `This action returns all users`;
-  }
+    ){}
+    async login(data: UpdateUserDto){
+        try {
+            const user = await this.userRepository.findOneBy({email: data.email})
+            if(user?.password && data?.password){
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+            }
+        } catch (error) {
+            return false;
+        }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+    }
+    async create(data: CreateUserDto) {
+        const saltOrRounds = 10;
+        const hash = await bcryp.hash(data.password, saltOrRounds)
+        const new_data = {...data, password: hash};
+        const register = this.userRepository.create(new_data);
+        await this.userRepository.save(register);
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+    }
+
+    async findAll() {
+        return await this.userRepository.find();
+    }
+
+    async findOne(id_user: number) {
+        return await this.userRepository.findOneBy({id_user});
+    }
+
+    async update(id_user: number, data: UpdateUserDto) {
+        if(data.password){
+            const saltOrRounds = 10
+            const hash = await bcryp.hash(data.password, saltOrRounds);
+            const new_data = { ...data, password: hash};
+            return await this.userRepository.update(id_user, new_data);
+        }
+    }
+
+    async remove(id_user: number) {
+        return await this.userRepository.delete(id_user);
+    }
 }
