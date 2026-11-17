@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "../../users/entities/user.entity.js";
 let Receta = class Receta {
     id_receta;
@@ -34,7 +34,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Receta.prototype, "id_receta", void 0);
 __decorate([
-    PrimaryColumn({ type: 'nvarchar', length: 'MAX' }),
+    Column({ type: 'varchar', length: '500' }),
     __metadata("design:type", Number)
 ], Receta.prototype, "idMeal", void 0);
 __decorate([
@@ -86,19 +86,19 @@ __decorate([
     __metadata("design:type", String)
 ], Receta.prototype, "strSource", void 0);
 __decorate([
-    Column({ type: 'bytea' }),
-    __metadata("design:type", Buffer)
+    Column({ type: 'text' }),
+    __metadata("design:type", String)
 ], Receta.prototype, "strImageSource", void 0);
 __decorate([
     Column({ type: 'text' }),
     __metadata("design:type", String)
 ], Receta.prototype, "strCreativeCommonsConfirmed", void 0);
 __decorate([
-    Column({ type: 'datetime' }),
+    Column({ type: 'timestamp' }),
     __metadata("design:type", Date)
 ], Receta.prototype, "dateModified", void 0);
 __decorate([
-    ManyToOne(() => User, (user) => user.recetas),
+    ManyToOne('User', (user) => user.recetas),
     JoinColumn({ name: 'id_user' }),
     __metadata("design:type", User)
 ], Receta.prototype, "users", void 0);

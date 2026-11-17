@@ -1,9 +1,14 @@
 import { CreateUserDto } from './dto/create-user.dto.js';
 import { UpdateUserDto } from './dto/update-user.dto.js';
+import { User } from './entities/user.entity.js';
+import { Repository } from 'typeorm';
 export declare class UsersService {
-    create(createUserDto: CreateUserDto): string;
-    findAll(): string;
-    findOne(id: number): string;
-    update(id: number, updateUserDto: UpdateUserDto): string;
-    remove(id: number): string;
+    private userRepository;
+    constructor(userRepository: Repository<User>);
+    login(data: UpdateUserDto): Promise<false | undefined>;
+    create(data: CreateUserDto): Promise<void>;
+    findAll(): Promise<User[]>;
+    findOne(id_user: number): Promise<User | null>;
+    update(id_user: number, data: UpdateUserDto): Promise<import("typeorm").UpdateResult | undefined>;
+    remove(id_user: number): Promise<import("typeorm").DeleteResult>;
 }

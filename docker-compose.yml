@@ -14,10 +14,8 @@ services:
       - NODE_ENV=development
     stdin_open: true
     tty: true
-
     depends_on:
       - db
-    user: "${UID:-1000}:${GID:-1000}"
 
   backend-api:
     build:
@@ -32,7 +30,6 @@ services:
     environment:
       - NODE_ENV=development
       - DATABASE_HOST=db  
-    user: "${UID:-1000}:${GID:-1000}"
   db:
     image: postgres:latest
     container_name: my_postgres_db
@@ -40,11 +37,16 @@ services:
     environment:
       POSTGRES_USER: 'asgard'
       POSTGRES_PASSWORD: 'admin'
-      PGDATA: /var/lib/postgres/data
-    user: "${UID:-1000}:${GID:-1000}"
+      POSTGRES_DB: 'recetario'
     ports:
       - "5432:5432"
     volumes:
-      - db_data_pg:/var/lib/postgresql/data
+      - db_data_pg:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U asgard -d recetario"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
 volumes:
   db_data_pg:

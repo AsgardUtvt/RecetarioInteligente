@@ -14,13 +14,15 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { RecetasService } from './recetas.service.js';
 import { CreateRecetaDto } from './dto/create-receta.dto.js';
 import { UpdateRecetaDto } from './dto/update-receta.dto.js';
+import { Req } from '@nestjs/common';
 let RecetasController = class RecetasController {
     recetasService;
     constructor(recetasService) {
         this.recetasService = recetasService;
     }
-    create(createRecetaDto) {
-        return this.recetasService.create(createRecetaDto);
+    create(createRecetaDto, req) {
+        const id_user = req.user.id;
+        return this.recetasService.create(id_user, createRecetaDto);
     }
     findAll() {
         return this.recetasService.findAll();
@@ -38,8 +40,9 @@ let RecetasController = class RecetasController {
 __decorate([
     Post(),
     __param(0, Body()),
+    __param(1, Req()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [CreateRecetaDto]),
+    __metadata("design:paramtypes", [CreateRecetaDto, Object]),
     __metadata("design:returntype", void 0)
 ], RecetasController.prototype, "create", null);
 __decorate([
