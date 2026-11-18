@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { View, FlatList, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { mealDbApi } from '../../api/mealDbApi';
 import { RecipeCard } from '../../components/RecipeCard';
+import { useNavigation } from '@react-navigation/native';
 
 export const CategoriaScreen = ({ route }: any) => {
+    const navigation = useNavigation<any>();
   const categoria = route.params?.categoria || 'Beef'; 
   
   const [recetas, setRecetas] = useState<any[]>([]);
@@ -31,7 +33,7 @@ export const CategoriaScreen = ({ route }: any) => {
         data={recetas}
         keyExtractor={(item) => item.idMeal}
         renderItem={({ item }) => (
-          <RecipeCard meal={item} onPress={() => {}} />
+             <RecipeCard meal={item} onPress={() => navigation.navigate('DetailReceta', { idMeal: item.idMeal })} />
         )}
       />
     </View>
@@ -39,6 +41,16 @@ export const CategoriaScreen = ({ route }: any) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 15, backgroundColor: '#f5f5f5' },
-  header: { fontSize: 28, fontWeight: 'bold', color: 'purple', marginBottom: 15, textAlign: 'center' },
+  container: { 
+      flex: 1, 
+      padding: 15, 
+      backgroundColor: '#f5f5f5' 
+  },
+  header: { 
+      fontSize: 28, 
+      fontWeight: 'bold', 
+      color: 'purple', 
+      marginBottom: 15, 
+      textAlign: 'center' 
+  },
 });

@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView, ActivityIndicator, StyleSheet, Touchable
 import { mealDbApi } from '../../api/mealDbApi';
 import { Meal, MealDbDataResponse } from '../../interfaces/mealDbResponse';
 
-export const DetailReceta = ({ route, navigation }: any) => {
+export const DetailReceta = ({ route }: any) => {
   const { idMeal } = route.params;
   const [receta, setReceta] = useState<Meal | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,6 +24,7 @@ export const DetailReceta = ({ route, navigation }: any) => {
   if (isLoading || !receta) {
     return <ActivityIndicator size="large" color="purple" style={{ flex: 1 }} />;
   }
+
   const ingredientes = [];
   for (let i = 1; i <= 20; i++) {
     const ingrediente = receta[`strIngredient${i}`];
@@ -63,13 +64,52 @@ export const DetailReceta = ({ route, navigation }: any) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
-  image: { width: '100%', height: 250 },
-  content: { padding: 20 },
-  title: { fontSize: 26, fontWeight: 'bold', color: 'purple', marginBottom: 5 },
-  category: { fontSize: 16, color: '#666', marginBottom: 15, fontStyle: 'italic' },
-  subTitle: { fontSize: 20, fontWeight: 'bold', color: '#333', marginTop: 15, marginBottom: 10 },
-  text: { fontSize: 16, color: '#444', lineHeight: 24 },
-  button: { backgroundColor: 'purple', padding: 15, borderRadius: 10, marginTop: 20, alignItems: 'center' },
-  buttonText: { color: 'white', fontWeight: 'bold', fontSize: 16 },
+  container: { 
+      flex: 1, 
+      backgroundColor: '#fff' 
+  },
+  image: { 
+      width: '100%', 
+      height: 250 
+  },
+  content: { 
+      padding: 20 
+  },
+  title: { 
+      fontSize: 26, 
+      fontWeight: 'bold', 
+      color: 'purple', 
+      marginBottom: 5 
+  },
+  category: { 
+      fontSize: 16, 
+      color: '#666', 
+      marginBottom: 15, 
+      fontStyle: 'italic' 
+  },
+  subTitle: { 
+      fontSize: 20, 
+      fontWeight: 'bold', 
+      color: '#333', 
+      marginTop: 15, 
+      marginBottom: 10 
+  },
+  text: { 
+      fontSize: 16, 
+      color: '#444', 
+      lineHeight: 24 
+  },
+  button: { 
+      backgroundColor: 'purple', 
+      padding: 15, 
+      borderRadius: 10, 
+      marginTop: 20, 
+      alignItems: 'center' 
+  },
+  buttonText: { 
+      color: 'white', 
+      fontWeight: 'bold', 
+      fontSize: 16 
+  },
 });
+
