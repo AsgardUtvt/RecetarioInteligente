@@ -5,10 +5,10 @@ import { Repository } from 'typeorm';
 export declare class UsersService {
     private userRepository;
     constructor(userRepository: Repository<User>);
-    login(data: UpdateUserDto): Promise<false | undefined>;
-    create(data: CreateUserDto): Promise<void>;
+    login(data: UpdateUserDto): Promise<User | null>;
+    create(data: CreateUserDto): Promise<User>;
+    update(id_user: number, data: UpdateUserDto): Promise<import("typeorm").UpdateResult>;
     findAll(): Promise<User[]>;
     findOne(id_user: number): Promise<User | null>;
-    update(id_user: number, data: UpdateUserDto): Promise<import("typeorm").UpdateResult | undefined>;
     remove(id_user: number): Promise<import("typeorm").DeleteResult>;
 }

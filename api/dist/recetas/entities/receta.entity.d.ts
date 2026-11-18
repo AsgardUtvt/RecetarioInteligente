@@ -18,4 +18,5 @@ export declare class Receta {
     strCreativeCommonsConfirmed: string;
     dateModified: Date;
     users: User;
+    fechaInsercion: Date;
 }

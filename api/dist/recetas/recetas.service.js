@@ -19,42 +19,38 @@ let RecetasService = class RecetasService {
     constructor(recetaRepository) {
         this.recetaRepository = recetaRepository;
     }
-    async create(id_user, data) {
-        const register = this.recetaRepository.create({ ...data, users: { id_user: id_user }, });
-        await this.recetaRepository.save(register);
-    }
     async findAll() {
         return await this.recetaRepository.find();
+    }
+    async create(id_user, data) {
+        const register = this.recetaRepository.create({
+            ...data,
+            users: { id_user: id_user }
+        });
+        return await this.recetaRepository.save(register);
     }
     async findOne(id_user, id_receta) {
         return await this.recetaRepository.findOneBy({
             id_receta,
-            users: {
-                id_user
-            }
+            users: { id_user: id_user }
         });
-    }
-    async update(id_user, id_receta, updateRecetaDto) {
-        return;
     }
     async remove(id_user, id_receta) {
         return await this.recetaRepository.createQueryBuilder()
             .delete()
             .from(Receta)
             .where("id_receta = :id_receta", { id_receta })
-            .andWhere("id_user = :id_user", { id_user })
+            .andWhere("user_id = :id_user", { id_user })
             .execute();
     }
     async topRecetasPopulares() {
         return await this.recetaRepository.createQueryBuilder('r')
             .select("COUNT(r.idMeal)", "cantidad")
             .addSelect("r.idMeal", "receta")
-            .groupBy("receta")
+            .groupBy("r.idMeal")
             .getRawMany();
     }
-    async recetasPorRegion() {
-        return this.recetaRepository.createQueryBuilder('r')
-            .select('COUNT(r.)');
+    async cantidadRecetasPorAno() {
     }
 };
 RecetasService = __decorate([

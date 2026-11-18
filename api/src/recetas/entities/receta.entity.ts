@@ -55,9 +55,14 @@ export class Receta {
     @Column({type: 'timestamp' })
     dateModified: Date;
     
-    @ManyToOne('User', (user: User) => user.recetas)
+    @ManyToOne('User', (user: User) => user.recetas,
+        { onDelete: 'CASCADE'}
+    )
     @JoinColumn({name: 'id_user'})
     users: User;
+
+    @Column({type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+    fechaInsercion: Date;
 
 
 }

@@ -10,10 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { RecetasService } from './recetas.service.js';
 import { CreateRecetaDto } from './dto/create-receta.dto.js';
-import { UpdateRecetaDto } from './dto/update-receta.dto.js';
 import { Req } from '@nestjs/common';
 let RecetasController = class RecetasController {
     recetasService;
@@ -27,14 +26,11 @@ let RecetasController = class RecetasController {
     findAll() {
         return this.recetasService.findAll();
     }
-    findOne(id) {
-        return this.recetasService.findOne(+id);
+    findOne(id_user, id_receta) {
+        return this.recetasService.findOne(id_user, id_receta);
     }
-    update(id, updateRecetaDto) {
-        return this.recetasService.update(+id, updateRecetaDto);
-    }
-    remove(id) {
-        return this.recetasService.remove(+id);
+    remove(id_user, id_receta) {
+        return this.recetasService.remove(id_user, id_receta);
     }
 };
 __decorate([
@@ -52,25 +48,19 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], RecetasController.prototype, "findAll", null);
 __decorate([
-    Get(':id'),
-    __param(0, Param('id')),
+    Get(':id_user/:id_receta'),
+    __param(0, Param('id_user')),
+    __param(1, Param('id_receta', ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number, Number]),
     __metadata("design:returntype", void 0)
 ], RecetasController.prototype, "findOne", null);
 __decorate([
-    Patch(':id'),
-    __param(0, Param('id')),
-    __param(1, Body()),
+    Delete(':id_user/:id_receta'),
+    __param(0, Param('id_user', ParseIntPipe)),
+    __param(1, Param('id_receta', ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, UpdateRecetaDto]),
-    __metadata("design:returntype", void 0)
-], RecetasController.prototype, "update", null);
-__decorate([
-    Delete(':id'),
-    __param(0, Param('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number, Number]),
     __metadata("design:returntype", void 0)
 ], RecetasController.prototype, "remove", null);
 RecetasController = __decorate([

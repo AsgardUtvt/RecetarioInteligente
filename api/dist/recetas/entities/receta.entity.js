@@ -28,6 +28,7 @@ let Receta = class Receta {
     strCreativeCommonsConfirmed;
     dateModified;
     users;
+    fechaInsercion;
 };
 __decorate([
     PrimaryGeneratedColumn(),
@@ -98,10 +99,14 @@ __decorate([
     __metadata("design:type", Date)
 ], Receta.prototype, "dateModified", void 0);
 __decorate([
-    ManyToOne('User', (user) => user.recetas),
+    ManyToOne('User', (user) => user.recetas, { onDelete: 'CASCADE' }),
     JoinColumn({ name: 'id_user' }),
     __metadata("design:type", User)
 ], Receta.prototype, "users", void 0);
+__decorate([
+    Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' }),
+    __metadata("design:type", Date)
+], Receta.prototype, "fechaInsercion", void 0);
 Receta = __decorate([
     Entity()
 ], Receta);
