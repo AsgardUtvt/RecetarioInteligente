@@ -1,55 +1,44 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { useWindowDimensions, View, Text } from "react-native";
-import { DrawerMenu as DrawerMenuCustom } from "../components/DrawerMenu"; // Ajusta la ruta
-import { HomeRecetas } from "../screens/recetas/HomeRecetas";
+import { useWindowDimensions } from "react-native";
+import { DrawerMenu } from "../components/DrawerMenu";
 import { UserScreen } from "../screens/User/UserScreen";
+import { RecetasStackNavigator } from "./RecetasStackNavigator"; // <-- NUEVO
 
-// Definición de tipos para el Drawer
 export type RootDrawerMenuParams = {
-  HomeRecetas: undefined;
-  UserScreen: undefined;
-  // Agrega aquí las demás pantallas (ej. Favoritos, Categorias, etc.)
+    RecetasStack: undefined;
+    UserScreen: undefined;
 };
 
 const Drawer = createDrawerNavigator<RootDrawerMenuParams>();
 
 export const DrawerNavigatorMenu = () => {
-  const { width } = useWindowDimensions();
-  const isTablet = width > 720;
+    const { width } = useWindowDimensions();
+    const isTablet = width > 720;
 
-  return (
-    <Drawer.Navigator
-      drawerContent={(props) => <DrawerMenuCustom {...props} />}
-      initialRouteName="HomeRecetas"
-      screenOptions={{
-        headerShown: true,
-        headerStyle: { backgroundColor: '#8A2BE2' }, // Ajusta a tu color primario
-        headerTintColor: '#fff',
-        drawerType: isTablet ? 'permanent' : 'front',
-        drawerPosition: 'left', // Cambiado a left (estándar), usa 'right' si lo prefieres
-        drawerStyle: {
-          width: isTablet ? 300 : width * 0.75,
-          backgroundColor: '#F5F5F5',
-        },
-      }}
-    >
-      <Drawer.Screen 
-        name="HomeRecetas"
-        component={HomeRecetas}
-        options={{ title: "Inicio / Recetas" }}
-      />
-      
-      <Drawer.Screen 
-        name="UserScreen"
-        component={UserScreen}
-        options={{ title: "Perfil de Usuario" }}
-      />
-
-      {/* Agrega más pantallas aquí según necesites */}
-      {/* 
-      <Drawer.Screen name="Favoritos" component={FavoritosScreen} />
-      <Drawer.Screen name="Categorias" component={MaterialTabsCategorias} /> 
-      */}
-    </Drawer.Navigator>
-  );
+    return (
+        <Drawer.Navigator
+            drawerContent={(props) => <DrawerMenu {...props} />}
+            initialRouteName="RecetasStack"
+            screenOptions={{
+                headerShown: false, // El header lo maneja el Stack anidado
+                drawerType: isTablet ? 'permanent' : 'front',
+                drawerPosition: 'left',
+                drawerStyle: {
+                    width: isTablet ? 300 : width * 0.75,
+                    backgroundColor: '#F5F5F5',
+                },
+            }}
+        >
+            <Drawer.Screen 
+                name="RecetasStack"
+                component={RecetasStackNavigator}
+                options={{ title: "Recetas" }}
+            />
+            <Drawer.Screen 
+                name="UserScreen"
+                component={UserScreen}
+                options={{ title: "Perfil", headerShown: true }}
+            />
+        </Drawer.Navigator>
+    );
 };
