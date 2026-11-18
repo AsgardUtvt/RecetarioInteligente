@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView, ActivityIndicator, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { mealDbApi } from '../../api/mealDbApi';
 import { Meal, MealDbDataResponse } from '../../interfaces/mealDbResponse';
+import { Colors } from '../../theme/appTheme';
 
 export const DetailReceta = ({ route }: any) => {
   const { idMeal } = route.params;
@@ -42,13 +43,17 @@ export const DetailReceta = ({ route }: any) => {
         <Text style={styles.title}>{receta.strMeal}</Text>
         <Text style={styles.category}>{receta.strCategory} | {receta.strArea}</Text>
 
-        <Text style={styles.subTitle}>Ingredientes:</Text>
-        {ingredientes.map((item, index) => (
-          <Text key={index} style={styles.text}>• {item}</Text>
-        ))}
+        <View style={styles.ingredientsBox}>
+          <Text style={styles.subTitle}>Ingredientes</Text>
+          {ingredientes.map((item, index) => (
+            <Text key={index} style={styles.ingredientText}>• {item}</Text>
+          ))}
+        </View>
 
-        <Text style={styles.subTitle}>Instrucciones:</Text>
-        <Text style={styles.text}>{receta.strInstructions}</Text>
+        <View style={styles.instructionsBox}>
+          <Text style={styles.subTitle}>Instrucciones</Text>
+          <Text style={styles.text}>{receta.strInstructions}</Text>
+        </View>
 
         {receta.strYoutube && (
           <TouchableOpacity 
@@ -66,50 +71,77 @@ export const DetailReceta = ({ route }: any) => {
 const styles = StyleSheet.create({
   container: { 
       flex: 1, 
-      backgroundColor: '#fff' 
+      backgroundColor: '#F4F7FC',
   },
   image: { 
       width: '100%', 
-      height: 250 
+      height: 250,
+      borderBottomLeftRadius: 30, 
+      borderBottomRightRadius: 30 
   },
   content: { 
-      padding: 20 
+      padding: 20,
+      marginTop: -20,
+      backgroundColor: '#fff', 
+      borderTopLeftRadius: 30, 
+      borderTopRightRadius: 30 
   },
   title: { 
       fontSize: 26, 
       fontWeight: 'bold', 
-      color: 'purple', 
+      color: Colors.darkBlue, 
       marginBottom: 5 
   },
   category: { 
       fontSize: 16, 
-      color: '#666', 
+      color: Colors.mediumBlue, 
       marginBottom: 15, 
       fontStyle: 'italic' 
   },
   subTitle: { 
       fontSize: 20, 
       fontWeight: 'bold', 
-      color: '#333', 
+      color: Colors.darkBlue, 
       marginTop: 15, 
       marginBottom: 10 
   },
   text: { 
       fontSize: 16, 
-      color: '#444', 
+      color: Colors.textSecondary, 
       lineHeight: 24 
   },
   button: { 
-      backgroundColor: 'purple', 
+      backgroundColor: Colors.orange, 
       padding: 15, 
       borderRadius: 10, 
       marginTop: 20, 
       alignItems: 'center' 
   },
   buttonText: { 
-      color: 'white', 
+      color: Colors.white, 
       fontWeight: 'bold', 
-      fontSize: 16 
+      fontSize: 16,
+      letterSpacing: 1
+  },
+  ingredientsBox: {
+    backgroundColor: '#FFF3E0',
+    borderRadius: 15,
+    padding: 15,
+    marginTop: 10,
+    marginBottom: 10,
+    borderWidth: 2,
+    borderColor: Colors.orange,
+  },
+  instructionsBox: {
+    backgroundColor: '#F8FAFC',
+    borderRadius: 15,
+    padding: 15,
+    marginBottom: 20,
+  },
+  ingredientText: {
+    fontSize: 16,
+    color: '#5D4037',
+    marginBottom: 5,
   },
 });
 

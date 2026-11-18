@@ -8,8 +8,8 @@ export const useMealDb = () => {
   const [categorias, setCategorias] = useState<any[]>([]);
 //  const [meals, setMeals] = useState<Meal[]>([]);
 //  const [error, setError] = useState<string | null>(null);
-//  const [offset, setOffset] = useState<number>(10);
-//  const [allMeals, setAllMeals] = useState<Meal[]>([]);
+  const [offset, setOffset] = useState<number>(6);
+  const [allMeals, setAllMeals] = useState<Meal[]>([]);
 
   const loadRecetas =async () => {
     setIsLoading(true);

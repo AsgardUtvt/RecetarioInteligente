@@ -3,6 +3,7 @@ import { View, Text, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, 
 import { useNavigation } from '@react-navigation/native';
 import { useMealDb } from '../../hooks/useMealDb';
 import { RecipeCard } from '../../components/RecipeCard';
+import { Colors } from '../../theme/appTheme';
 
 export const HomeRecetas = () => {
   const navigation = useNavigation<any>();
@@ -80,18 +81,18 @@ const styles = StyleSheet.create({
   container: { 
       flex: 1, 
       padding: 15, 
-      backgroundColor: '#f5f5f5' 
+      backgroundColor: Colors.background, 
   },
   header: { 
       fontSize: 24, 
       fontWeight: 'bold', 
-      color: 'purple', 
+      color: Colors.darkBlue, 
       marginBottom: 15 
   },
   subHeader: { 
       fontSize: 18, 
       fontWeight: 'bold', 
-      color: '#ff8c00', 
+      color: Colors.orange, 
       marginBottom: 10 
   },
   favItem: { 
@@ -101,7 +102,9 @@ const styles = StyleSheet.create({
   favImage: { 
       width: 80, 
       height: 80, 
-      borderRadius: 40 
+      borderRadius: 40,
+      borderWidth: 2, 
+      borderColor: Colors.yellow
   },
   categoryItem: { 
       alignItems: 'center', 
@@ -111,12 +114,12 @@ const styles = StyleSheet.create({
       width: 80, 
       height: 80, 
       borderRadius: 40, 
-      backgroundColor: '#fff', 
+      backgroundColor: Colors.lightBlue, 
       justifyContent: 'center', 
       alignItems: 'center', 
       marginBottom: 5, 
       borderWidth: 2, 
-      borderColor: '#ffebd6', 
+      borderColor: Colors.mediumBlue, 
       elevation: 3 
   },
   categoryImage: { 
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
   },
   categoryText: { 
       fontSize: 12, 
-      color: '#666', 
+      color: Colors.darkBlue, 
       fontWeight: 'bold' 
   },
 });

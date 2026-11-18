@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Meal } from '../interfaces/mealDbResponse';
+import { Colors } from '../theme/appTheme';
 
 interface Props {
   meal: Meal;
@@ -33,21 +34,27 @@ export const RecipeCard = ({ meal, onPress }: Props) => {
 
 const styles = StyleSheet.create({
   card: { 
-      backgroundColor: '#fff', 
-      borderRadius: 15, 
-      marginBottom: 15, 
+      backgroundColor: Colors.white, 
+      borderRadius: 20, 
+      marginBottom: 20, 
       overflow: 'hidden', 
-      elevation: 3 
+      elevation: 3, 
+      shadowColor: Colors.darkBlue,
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.3,
+      shadowRadius: 5,
+      borderWidth: 2,
+      borderColor: Colors.darkBlue,
   },
   image: { 
       width: '100%', 
-      height: 150 
+      height: 180 
   },
   favButton: { 
       position: 'absolute', 
       top: 10, 
       right: 10, 
-      backgroundColor: 'rgba(255,255,255,0.8)', 
+      backgroundColor: Colors.white, 
       borderRadius: 20, 
       padding: 5 
   },
@@ -57,11 +64,11 @@ const styles = StyleSheet.create({
   title: { 
       fontSize: 18, 
       fontWeight: 'bold', 
-      color: '#333' 
+      color: Colors.textPrimary, 
   },
   category: { 
       fontSize: 14, 
-      color: 'purple', 
+      color: Colors.orange, 
       fontWeight: 'bold', 
       marginTop: 5 
   },
