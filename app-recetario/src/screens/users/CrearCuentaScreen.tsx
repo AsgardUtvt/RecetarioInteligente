@@ -1,46 +1,162 @@
-import {NativeStackScreenProps} from "@react-navigation/native-stack";
-import { Text, View, TouchableOpacity, TextInput } from "react-native";
-import {StackLoginParams} from "../../navigator/StackLoginNavigator";
+import { useState } from "react";
+import { 
+  View, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  ActivityIndicator, 
+  Image, 
+  Alert,
+  ScrollView 
+} from "react-native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { StackLoginParams } from "../../navigator/StackLoginNavigator"; // Ajusta la ruta si es necesario
+import { useAuth } from "../../context/AuthContext"; // Ajusta la ruta
+import { useImagePicker } from "../../hooks/useImagePicker"; // Ajusta la ruta
+import { appTheme } from "../../theme/appTheme"; // Ajusta la ruta
 
+interface Props extends NativeStackScreenProps<StackLoginParams, 'CrearCuentaScreen'> {}
 
-interface Props extends NativeStackScreenProps<StackLoginParams, 'CrearCuentaScreen'>{};
+export const CrearCuentaScreen = ({ navigation }: Props) => {
+  const { register, authState } = useAuth();
+  const { image64, pickImage } = useImagePicker();
+  
+  const [form, setForm] = useState({
+    nombre: "",
+    paterno: "",
+    materno: "",
+    email: "",
+    password: "",
+  });
 
-export const CrearCuentaScreen = ({navigation}: Props) => {
-   
+  const handleChange = (field: string, value: string) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleRegister = async () => {
+    // 1. Validación básica
+    if (!form.email || !form.password || !form.nombre) {
+      Alert.alert("Error", "Nombre, correo y contraseña son obligatorios.");
+      return;
+    }
+
+    try {
+      // 2. Limpiar el prefijo base64 antes de enviar al backend (NestJS lo espera limpio para bytea)
+      const rawBase64 = image64 ? image64.replace(/^data:image\/\w+;base64,/, "") : null;
+      
+      // 3. Llamar al contexto
+      await register({
+        id_user: 0, // El backend lo ignora o genera el auto-incremental
+        email: form.email,
+        nombre: form.nombre,
+        paterno: form.paterno,
+        materno: form.materno,
+        password: form.password,
+        foto: rawBase64,
+      });
+
+      // 4. Si tiene éxito, el AuthContext ya cambió isLoggedIn a true.
+      // Tu App.tsx renderizará automáticamente el Drawer. 
+      // Si necesitas forzar la navegación por alguna razón, descomenta la siguiente línea:
+      // navigation.reset({ index: 0, routes: [{ name: 'DrawerNavigatorMenu' }] });
+      
+    } catch (error) {
+      Alert.alert("Error", "No se pudo crear la cuenta. Verifica tus datos o intenta más tarde.");
+    }
+  };
+
+  // Mostrar loader mientras el contexto procesa la petición
+  if (authState.isLoading) {
     return (
-        <View>
-            <View>
-                <TextInput
-                    placeholder="Usuario"
-                />
-            </View>
-            <View>
-                <TextInput
-                    placeholder="Apellido paterno"
-                />
-            </View>
-            <View>
-                <TextInput
-                    placeholder="Apellido materno"
-                />
-            </View>
-            <View>
-                <TextInput
-                    placeholder="Correo"
-                />
-            </View>
-            <View>
-                <TextInput
-                    placeholder="Password"
-                />
-            </View>
-
-            <TouchableOpacity>
-                <Text>Seleccionar imagen</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-                <Text>Craer cuenta</Text>
-            </TouchableOpacity>
-        </View>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="violet" />
+        <Text style={{ marginTop: 10 }}>Creando cuenta...</Text>
+      </View>
     );
-}
+  }
+
+  return (
+    <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 20, justifyContent: "center" }}>
+      <Text style={[appTheme.text, { fontSize: 24, fontWeight: "bold", marginBottom: 20, textAlign: "center" }]}>
+        Crear Cuenta
+      </Text>
+
+      <Text style={appTheme.text}>Nombre</Text>
+      <TextInput
+        style={appTheme.textInput}
+        value={form.nombre}
+        onChangeText={(t) => handleChange("nombre", t)}
+        autoCapitalize="words"
+      />
+
+      <Text style={[appTheme.text, { marginTop: 10 }]}>Apellido Paterno</Text>
+      <TextInput
+        style={appTheme.textInput}
+        value={form.paterno}
+        onChangeText={(t) => handleChange("paterno", t)}
+        autoCapitalize="words"
+      />
+
+      <Text style={[appTheme.text, { marginTop: 10 }]}>Apellido Materno</Text>
+      <TextInput
+        style={appTheme.textInput}
+        value={form.materno}
+        onChangeText={(t) => handleChange("materno", t)}
+        autoCapitalize="words"
+      />
+
+      <Text style={[appTheme.text, { marginTop: 10 }]}>Correo Electrónico</Text>
+      <TextInput
+        style={appTheme.textInput}
+        value={form.email}
+        onChangeText={(t) => handleChange("email", t)}
+        keyboardType="email-address"
+        autoCapitalize="none"
+      />
+
+      <Text style={[appTheme.text, { marginTop: 10 }]}>Contraseña</Text>
+      <TextInput
+        style={appTheme.textInput}
+        value={form.password}
+        onChangeText={(t) => handleChange("password", t)}
+        secureTextEntry
+      />
+
+      <TouchableOpacity 
+        style={[appTheme.btn, { marginTop: 20, backgroundColor: "gray" }]} 
+        onPress={pickImage}
+      >
+        <Text style={{ color: "white", fontWeight: "bold" }}>Seleccionar Imagen de Perfil</Text>
+      </TouchableOpacity>
+
+      {image64 && (
+        <Image 
+          source={{ uri: image64 }} 
+          style={{ 
+            width: 100, 
+            height: 100, 
+            borderRadius: 50, 
+            alignSelf: "center", 
+            marginTop: 15,
+            borderWidth: 2,
+            borderColor: "violet"
+          }} 
+        />
+      )}
+
+      <TouchableOpacity 
+        style={[appTheme.btn, { marginTop: 25, backgroundColor: "violet" }]} 
+        onPress={handleRegister}
+      >
+        <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>Crear Cuenta</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity 
+        style={{ marginTop: 15, alignSelf: "center" }} 
+        onPress={() => navigation.goBack()}
+      >
+        <Text style={{ color: "blue", fontSize: 14 }}>¿Ya tienes cuenta? Inicia sesión</Text>
+      </TouchableOpacity>
+    </ScrollView>
+  );
+};

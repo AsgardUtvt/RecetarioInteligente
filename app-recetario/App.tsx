@@ -1,72 +1,17 @@
-import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import { StackLoginNavigator } from './src/navigator/StackLoginNavigator';
+import 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { AuthProvider } from './src/context/AuthContext';
+import { RootNavigator } from './src/navigator/RootNavigator'; // O tu lógica de renderizado condicional
 
 export default function App() {
-
   return (
-    <NavigationContainer>
-        <StackLoginNavigator />
-    </NavigationContainer>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <AuthProvider>
+        <NavigationContainer>
+          <RootNavigator />
+        </NavigationContainer>
+      </AuthProvider>
+    </GestureHandlerRootView>
   );
 }
-
-const styles = StyleSheet.create({
-    container: { 
-        flex: 1, 
-        padding: 15, 
-        paddingTop: 50 , 
-        backgroundColor: '#fff' 
-    },
-  header: { 
-      fontSize: 24, 
-      fontWeight: 'bold', 
-      marginBottom: 15 
-  },
-  card: { 
-      marginBottom: 20 
-  },
-  img: { 
-      width: '100%', 
-      height: 150, 
-      borderRadius: 10 
-  },
-  title: { 
-      fontSize: 18, 
-      fontWeight: 'bold', 
-      marginTop: 5 
-  },
-});
-/*
- *
-      
-    <View 
-        style={styles.container}
-    >
-      <Text 
-        style={styles.header}
-      >
-        Recetas
-      </Text>
-
-      <FlatList
-        data={meals}
-        keyExtractor={(item) => item.idMeal}
-        renderItem={({ item }) => (
-          <View 
-              style={styles.card}
-          >
-            <Image 
-                source={{ uri: item.strMealThumb }} style={styles.img} 
-            />
-            <Text 
-                style={styles.title}
-            >
-                {item.strMeal}
-            </Text>
-          </View>
-        )}
-      />
-
-    </View>
- * */
