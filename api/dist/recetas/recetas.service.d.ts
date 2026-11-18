@@ -10,4 +10,6 @@ export declare class RecetasService {
     findOne(id_user: number, id_receta: number): Promise<Receta | null>;
     update(id_user: number, id_receta: number, updateRecetaDto: UpdateRecetaDto): Promise<void>;
     remove(id_user: number, id_receta: number): Promise<import("typeorm").DeleteResult>;
+    private topRecetasPopulares;
+    private recetasPorRegion;
 }

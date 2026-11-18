@@ -37,13 +37,24 @@ let RecetasService = class RecetasService {
     async update(id_user, id_receta, updateRecetaDto) {
         return;
     }
-    remove(id_user, id_receta) {
-        return this.recetaRepository.createQueryBuilder()
+    async remove(id_user, id_receta) {
+        return await this.recetaRepository.createQueryBuilder()
             .delete()
             .from(Receta)
             .where("id_receta = :id_receta", { id_receta })
             .andWhere("id_user = :id_user", { id_user })
             .execute();
+    }
+    async topRecetasPopulares() {
+        return await this.recetaRepository.createQueryBuilder('r')
+            .select("COUNT(r.idMeal)", "cantidad")
+            .addSelect("r.idMeal", "receta")
+            .groupBy("receta")
+            .getRawMany();
+    }
+    async recetasPorRegion() {
+        return this.recetaRepository.createQueryBuilder('r')
+            .select('COUNT(r.)');
     }
 };
 RecetasService = __decorate([

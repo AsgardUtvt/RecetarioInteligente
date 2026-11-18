@@ -5,6 +5,7 @@ import {InjectRepository} from '@nestjs/typeorm';
 import {Receta} from './entities/receta.entity.js';
 import {Repository} from 'typeorm';
 import {rootCertificates} from 'tls';
+import {ReturningResultsEntityUpdator} from 'typeorm/query-builder/ReturningResultsEntityUpdator.js';
 
 @Injectable()
 export class RecetasService {
@@ -34,12 +35,28 @@ export class RecetasService {
         return ;
     }
 
-    remove(id_user: number ,id_receta: number) {
-        return this.recetaRepository.createQueryBuilder()
-        .delete()
-        .from(Receta)
-        .where("id_receta = :id_receta", {id_receta})
-        .andWhere("id_user = :id_user", {id_user})
-        .execute();
+    async remove(id_user: number ,id_receta: number) {
+        return await this.recetaRepository.createQueryBuilder()
+            .delete()
+            .from(Receta)
+            .where("id_receta = :id_receta", {id_receta})
+            .andWhere("id_user = :id_user", {id_user})
+            .execute();
     }
+
+    private async topRecetasPopulares(){
+        return await this.recetaRepository.createQueryBuilder('r')
+            .select("COUNT(r.idMeal)", "cantidad")
+            .addSelect("r.idMeal", "receta")
+            .groupBy("receta")
+            .getRawMany()
+
+    }
+
+    private async recetasPorRegion(){
+        return this.recetaRepository.createQueryBuilder('r')
+        .select('COUNT(r.)')
+    }
+
+
 }
