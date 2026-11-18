@@ -13,49 +13,47 @@ export class RecetasService {
         @InjectRepository(Receta, 'postgres-connection')
         private recetaRepository: Repository<Receta>
     ){}
-    async create(id_user: number,data: CreateRecetaDto) {
-        const register = this.recetaRepository.create({...data, users:{id_user: id_user},});
-        await this.recetaRepository.save(register);
-    }
-
     async findAll() {
         return await this.recetaRepository.find();
     }
+// create: Falta el return y la relación debe apuntar a la Primary Key (asumo que es 'id' o 'id_user')
+async create(id_user: number, data: CreateRecetaDto) {
+    const register = this.recetaRepository.create({ 
+        ...data, 
+        users: { id_user: id_user } // Cambia 'id' por 'id_user' si tu PK en User es id_user
+    });
+    return await this.recetaRepository.save(register);
+}
 
-    async findOne(id_user: number ,id_receta: number) {
-        return await this.recetaRepository.findOneBy({
-            id_receta,
-            users: {
-                id_user
-            }
-        });
-    }
+// findOne: Mismo error de relación
+async findOne(id_user: number, id_receta: number) {
+    return await this.recetaRepository.findOneBy({
+        id_receta,
+        users: { id_user: id_user }
+    });
+}
 
-    async update( id_user: number , id_receta: number, updateRecetaDto: UpdateRecetaDto) {
-        return ;
-    }
+// remove: El nombre en 'andWhere' debe ser el de la columna en la BD (ej. user_id), no el de la entidad
+async remove(id_user: number, id_receta: number) {
+    return await this.recetaRepository.createQueryBuilder()
+        .delete()
+        .from(Receta)
+        .where("id_receta = :id_receta", { id_receta })
+        .andWhere("user_id = :id_user", { id_user }) // Asegúrate que la columna se llame user_id
+        .execute();
+}
 
-    async remove(id_user: number ,id_receta: number) {
-        return await this.recetaRepository.createQueryBuilder()
-            .delete()
-            .from(Receta)
-            .where("id_receta = :id_receta", {id_receta})
-            .andWhere("id_user = :id_user", {id_user})
-            .execute();
-    }
+// topRecetasPopulares: groupBy debe usar el alias de la tabla
+async topRecetasPopulares() {
+    return await this.recetaRepository.createQueryBuilder('r')
+        .select("COUNT(r.idMeal)", "cantidad")
+        .addSelect("r.idMeal", "receta")
+        .groupBy("r.idMeal") // Corregido
+        .getRawMany();
+}
 
-    private async topRecetasPopulares(){
-        return await this.recetaRepository.createQueryBuilder('r')
-            .select("COUNT(r.idMeal)", "cantidad")
-            .addSelect("r.idMeal", "receta")
-            .groupBy("receta")
-            .getRawMany()
+    private async cantidadRecetasPorAno(){
 
-    }
-
-    private async recetasPorRegion(){
-        return this.recetaRepository.createQueryBuilder('r')
-        .select('COUNT(r.)')
     }
 
 
