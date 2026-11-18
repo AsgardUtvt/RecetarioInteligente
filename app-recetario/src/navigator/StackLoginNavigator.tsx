@@ -36,6 +36,10 @@ export const StackLoginNavigator = () => {
                 component={DetailReceta}
                 options={{ title: 'Detalle'}}
             />
+            <Stack.Screen
+                name="CategoriaScreen"
+                component={CategoriaScreen}
+            />
             <Stack.Screen 
                 name="CrearCuentaScreen"
                 component={CrearCuentaScreen}
