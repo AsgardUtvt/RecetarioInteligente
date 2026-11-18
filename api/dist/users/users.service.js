@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
@@ -48,20 +48,19 @@ let UsersService = class UsersService {
     }
     async update(id_user, data) {
         const { foto, ...rest } = data;
+        const payload = { ...rest };
         if (data.password) {
-            const saltOrRounds = 10;
-            const hash = await bcrypt.hash(data.password, saltOrRounds);
-            const new_data = {
-                ...rest,
-                password: hash,
-                foto: foto === null ? undefined : foto,
-            };
-            return await this.userRepository.update(id_user, new_data);
+            payload.password = await bcrypt.hash(data.password, 10);
         }
-        return await this.userRepository.update(id_user, {
-            ...rest,
-            foto: foto === null ? undefined : foto,
-        });
+        if (foto !== undefined) {
+            payload.foto = foto === null ? undefined : foto;
+        }
+        await this.userRepository.update(id_user, payload);
+        const updated = await this.userRepository.findOneBy({ id_user });
+        if (!updated)
+            throw new NotFoundException('Usuario no encontrado');
+        const { password, ...result } = updated;
+        return result;
     }
     async remove(id_user) {
         return await this.userRepository.delete(id_user);

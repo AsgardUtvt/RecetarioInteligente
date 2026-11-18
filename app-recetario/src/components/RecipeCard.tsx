@@ -1,31 +1,31 @@
-import { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Meal } from '../interfaces/mealDbResponse';
-import { Colors } from '../theme/appTheme';
 
 interface Props {
   meal: Meal;
   onPress: () => void;
+  isFavorita?: boolean;
+  onToggleFavorito?: () => void;
 }
 
-export const RecipeCard = ({ meal, onPress }: Props) => {
-  const [isFav, setIsFav] = useState(false);
-
+export const RecipeCard = ({ meal, onPress, isFavorita = false, onToggleFavorito }: Props) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.card}>
       <Image source={{ uri: meal.strMealThumb }} style={styles.image} />
-      
-      <TouchableOpacity 
-        style={styles.favButton} 
-        onPress={() => setIsFav(!isFav)}
-      >
-        <Text style={{ fontSize: 24 }}>
-          {isFav ? '❤️' : '🤍'}
-        </Text>
-      </TouchableOpacity>
+
+      {onToggleFavorito && (
+        <TouchableOpacity
+          style={styles.favButton}
+          onPress={onToggleFavorito}
+        >
+          <Text style={{ fontSize: 24 }}>
+            {isFavorita ? '❤️' : '🤍'}
+          </Text>
+        </TouchableOpacity>
+      )}
 
       <View style={styles.info}>
-        <Text style={styles.title}>{meal.strMeal}</Text>
+        <Text style={styles.title} numberOfLines={2}>{meal.strMeal}</Text>
         <Text style={styles.category}>{meal.strCategory}</Text>
       </View>
     </TouchableOpacity>
@@ -33,43 +33,44 @@ export const RecipeCard = ({ meal, onPress }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  card: { 
-      backgroundColor: Colors.white, 
-      borderRadius: 20, 
-      marginBottom: 20, 
-      overflow: 'hidden', 
-      elevation: 3, 
-      shadowColor: Colors.darkBlue,
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.3,
-      shadowRadius: 5,
-      borderWidth: 2,
-      borderColor: Colors.darkBlue,
+  card: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    marginBottom: 15,
+    overflow: 'hidden',
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
-  image: { 
-      width: '100%', 
-      height: 180 
+  image: {
+    width: '100%',
+    height: 180,
   },
-  favButton: { 
-      position: 'absolute', 
-      top: 10, 
-      right: 10, 
-      backgroundColor: Colors.white, 
-      borderRadius: 20, 
-      padding: 5 
+  favButton: {
+    position: 'absolute',
+    top: 12,
+    right: 12,
+    backgroundColor: 'rgba(255,255,255,0.95)',
+    borderRadius: 22,
+    padding: 6,
+    elevation: 2,
   },
-  info: { 
-      padding: 15 
+  info: {
+    padding: 14,
   },
-  title: { 
-      fontSize: 18, 
-      fontWeight: 'bold', 
-      color: Colors.textPrimary, 
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#2C1810',
   },
-  category: { 
-      fontSize: 14, 
-      color: Colors.orange, 
-      fontWeight: 'bold', 
-      marginTop: 5 
+  category: {
+    fontSize: 13,
+    color: '#D2691E', // <-- Cambiado de morado a naranja cálido
+    fontWeight: '600',
+    marginTop: 6,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
 });

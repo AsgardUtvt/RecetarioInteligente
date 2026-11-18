@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { IsDateString, IsInt, IsOptional, IsString } from "class-validator";
+import { IsString, IsInt, IsOptional, IsArray } from "class-validator";
 export class CreateRecetaDto {
     id_receta;
     idMeal;
@@ -15,17 +15,12 @@ export class CreateRecetaDto {
     strMealAlternate;
     strCategory;
     strArea;
-    strCountry;
     strInstructions;
     strMealThumb;
     strTags;
     strYoutube;
-    strIngredient;
-    strMeasure;
-    strSource;
-    strImageSource;
-    strCreativeCommonsConfirmed;
-    dateModified;
+    ingredientes;
+    id_user;
 }
 __decorate([
     IsOptional(),
@@ -33,12 +28,10 @@ __decorate([
     __metadata("design:type", Number)
 ], CreateRecetaDto.prototype, "id_receta", void 0);
 __decorate([
-    IsOptional(),
     IsString(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], CreateRecetaDto.prototype, "idMeal", void 0);
 __decorate([
-    IsOptional(),
     IsString(),
     __metadata("design:type", String)
 ], CreateRecetaDto.prototype, "strMeal", void 0);
@@ -61,11 +54,6 @@ __decorate([
     IsOptional(),
     IsString(),
     __metadata("design:type", String)
-], CreateRecetaDto.prototype, "strCountry", void 0);
-__decorate([
-    IsOptional(),
-    IsString(),
-    __metadata("design:type", String)
 ], CreateRecetaDto.prototype, "strInstructions", void 0);
 __decorate([
     IsOptional(),
@@ -84,32 +72,12 @@ __decorate([
 ], CreateRecetaDto.prototype, "strYoutube", void 0);
 __decorate([
     IsOptional(),
-    IsString(),
-    __metadata("design:type", String)
-], CreateRecetaDto.prototype, "strIngredient", void 0);
+    IsArray(),
+    __metadata("design:type", Array)
+], CreateRecetaDto.prototype, "ingredientes", void 0);
 __decorate([
     IsOptional(),
-    IsString(),
-    __metadata("design:type", String)
-], CreateRecetaDto.prototype, "strMeasure", void 0);
-__decorate([
-    IsOptional(),
-    IsString(),
-    __metadata("design:type", String)
-], CreateRecetaDto.prototype, "strSource", void 0);
-__decorate([
-    IsOptional(),
-    IsString(),
-    __metadata("design:type", String)
-], CreateRecetaDto.prototype, "strImageSource", void 0);
-__decorate([
-    IsOptional(),
-    IsString(),
-    __metadata("design:type", String)
-], CreateRecetaDto.prototype, "strCreativeCommonsConfirmed", void 0);
-__decorate([
-    IsDateString(),
-    IsOptional(),
-    __metadata("design:type", String)
-], CreateRecetaDto.prototype, "dateModified", void 0);
+    IsInt(),
+    __metadata("design:type", Number)
+], CreateRecetaDto.prototype, "id_user", void 0);
 //# sourceMappingURL=create-receta.dto.js.map

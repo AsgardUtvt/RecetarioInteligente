@@ -1,19 +1,14 @@
 export declare class CreateRecetaDto {
     id_receta: number;
-    idMeal: number;
+    idMeal: string;
     strMeal: string;
-    strMealAlternate: string;
-    strCategory: string;
-    strArea: string;
-    strCountry: string;
-    strInstructions: string;
-    strMealThumb: string;
-    strTags: string;
-    strYoutube: string;
-    strIngredient: string;
-    strMeasure: string;
-    strSource: string;
-    strImageSource: string;
-    strCreativeCommonsConfirmed: string;
-    dateModified: string;
+    strMealAlternate?: string;
+    strCategory?: string;
+    strArea?: string;
+    strInstructions?: string;
+    strMealThumb?: string;
+    strTags?: string;
+    strYoutube?: string;
+    ingredientes?: any[];
+    id_user?: number;
 }

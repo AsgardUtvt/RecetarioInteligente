@@ -44,8 +44,8 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "foto", void 0);
 __decorate([
-    OneToMany('Receta', (receta) => receta.users),
-    __metadata("design:type", Object)
+    OneToMany('Receta', (receta) => receta.user),
+    __metadata("design:type", Array)
 ], User.prototype, "recetas", void 0);
 __decorate([
     Column({ type: 'varchar', length: '255' }),

@@ -16,25 +16,14 @@ export const RecetasStackNavigator = () => {
         <Stack.Navigator
             initialRouteName="HomeRecetas"
             screenOptions={{
-                headerStyle: { backgroundColor: '#8A2BE2' },
-                headerTintColor: '#fff',
+                headerStyle: { backgroundColor: '#D2691E' },
+                headerTintColor: '#FFFFFF',
+                headerTitleStyle: { fontWeight: 'bold' },
             }}
         >
-            <Stack.Screen 
-                name="HomeRecetas" 
-                component={HomeRecetas} 
-                options={{ title: 'Recetas' }}
-            />
-            <Stack.Screen 
-                name="DetailReceta" 
-                component={DetailReceta} 
-                options={{ title: 'Detalle' }}
-            />
-            <Stack.Screen 
-                name="CategoriaScreen" 
-                component={CategoriaScreen} 
-                options={{ title: 'Categoría' }}
-            />
+            <Stack.Screen name="HomeRecetas" component={HomeRecetas} options={{ title: 'Recetas' }} />
+            <Stack.Screen name="DetailReceta" component={DetailReceta} options={{ title: 'Detalle' }} />
+            <Stack.Screen name="CategoriaScreen" component={CategoriaScreen} options={{ title: 'Categoría' }} />
         </Stack.Navigator>
     );
 };

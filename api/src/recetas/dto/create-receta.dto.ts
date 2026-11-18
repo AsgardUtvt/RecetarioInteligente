@@ -1,72 +1,49 @@
-import {IsDateString, IsInt, IsOptional, IsString} from "class-validator";
+import { IsString, IsInt, IsOptional, IsArray } from "class-validator";
 
 export class CreateRecetaDto {
-
     @IsOptional()
     @IsInt()
     id_receta: number;
 
-    @IsOptional()
     @IsString()
-    idMeal: number;
+    idMeal: string;
 
-    @IsOptional()
     @IsString()
     strMeal: string;
 
     @IsOptional()
     @IsString()
-    strMealAlternate: string;
+    strMealAlternate?: string;
 
     @IsOptional()
     @IsString()
-    strCategory: string;
+    strCategory?: string;
 
     @IsOptional()
     @IsString()
-    strArea: string;
+    strArea?: string;
 
     @IsOptional()
     @IsString()
-    strCountry: string;
+    strInstructions?: string;
 
     @IsOptional()
     @IsString()
-    strInstructions: string;
+    strMealThumb?: string;
 
     @IsOptional()
     @IsString()
-    strMealThumb: string;
+    strTags?: string;
 
     @IsOptional()
     @IsString()
-    strTags: string; 
+    strYoutube?: string;
 
     @IsOptional()
-    @IsString()
-    strYoutube: string;
+    @IsArray()
+    ingredientes?: any[];
 
     @IsOptional()
-    @IsString()
-    strIngredient: string;
-
-    @IsOptional()
-    @IsString()
-    strMeasure: string;
-
-    @IsOptional()
-    @IsString()
-    strSource: string;
-
-    @IsOptional()
-    @IsString()
-    strImageSource: string;
-
-    @IsOptional()
-    @IsString()
-    strCreativeCommonsConfirmed: string;
-    
-    @IsDateString()
-    @IsOptional()
-    dateModified: string;
+    @IsInt()
+    id_user?: number;
 }

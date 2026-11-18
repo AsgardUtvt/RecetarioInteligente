@@ -25,32 +25,60 @@ let RecetasService = class RecetasService {
     async create(id_user, data) {
         const register = this.recetaRepository.create({
             ...data,
-            users: { id_user: id_user }
+            id_user,
         });
         return await this.recetaRepository.save(register);
     }
     async findOne(id_user, id_receta) {
-        return await this.recetaRepository.findOneBy({
-            id_receta,
-            users: { id_user: id_user }
+        return await this.recetaRepository.findOne({
+            where: { id_receta, id_user },
+            relations: { user: true },
         });
     }
     async remove(id_user, id_receta) {
-        return await this.recetaRepository.createQueryBuilder()
-            .delete()
-            .from(Receta)
-            .where("id_receta = :id_receta", { id_receta })
-            .andWhere("user_id = :id_user", { id_user })
-            .execute();
+        return await this.recetaRepository.delete({ id_receta, id_user });
+    }
+    async toggleFavorita(id_user, data) {
+        const existente = await this.recetaRepository.findOne({
+            where: { idMeal: data.idMeal, id_user },
+        });
+        if (existente) {
+            await this.recetaRepository.remove(existente);
+            return { isFavorita: false };
+        }
+        const nueva = this.recetaRepository.create({
+            ...data,
+            id_user,
+        });
+        await this.recetaRepository.save(nueva);
+        return { isFavorita: true };
+    }
+    async findFavoritas(id_user) {
+        return await this.recetaRepository.find({
+            where: { id_user },
+            order: { fechaInsercion: 'DESC' },
+        });
     }
     async topRecetasPopulares() {
         return await this.recetaRepository.createQueryBuilder('r')
-            .select("COUNT(r.idMeal)", "cantidad")
-            .addSelect("r.idMeal", "receta")
-            .groupBy("r.idMeal")
+            .select('r.idMeal', 'idMeal')
+            .addSelect('r.strMeal', 'strMeal')
+            .addSelect('r.strMealThumb', 'strMealThumb')
+            .addSelect('COUNT(r.id_receta)', 'cantidad')
+            .groupBy('r.idMeal')
+            .addGroupBy('r.strMeal')
+            .addGroupBy('r.strMealThumb')
+            .orderBy('cantidad', 'DESC')
+            .limit(5)
             .getRawMany();
     }
-    async cantidadRecetasPorAno() {
+    async recetasPorCategoria() {
+        return await this.recetaRepository.createQueryBuilder('r')
+            .select('r.strCategory', 'categoria')
+            .addSelect('COUNT(r.id_receta)', 'cantidad')
+            .groupBy('r.strCategory')
+            .orderBy('cantidad', 'DESC')
+            .getRawMany();
     }
 };
 RecetasService = __decorate([

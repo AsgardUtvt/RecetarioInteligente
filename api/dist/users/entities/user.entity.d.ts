@@ -1,4 +1,3 @@
-import { type Relation } from "typeorm";
 import { Receta } from "../../recetas/entities/receta.entity.js";
 export declare class User {
     id_user: number;
@@ -7,6 +6,6 @@ export declare class User {
     paterno: string;
     materno: string;
     foto: string;
-    recetas: Relation<Receta[]>;
+    recetas: Receta[];
     password: string;
 }

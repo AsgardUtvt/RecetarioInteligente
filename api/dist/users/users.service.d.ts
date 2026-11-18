@@ -16,10 +16,18 @@ export declare class UsersService {
         paterno: string;
         materno: string;
         foto: string;
-        recetas: import("typeorm").Relation<import("../recetas/entities/receta.entity.js").Receta[]>;
+        recetas: import("../recetas/entities/receta.entity.js").Receta[];
     }>;
     findAll(): Promise<User[]>;
     findOne(id_user: number): Promise<User | null>;
-    update(id_user: number, data: UpdateUserDto): Promise<import("typeorm").UpdateResult>;
+    update(id_user: number, data: UpdateUserDto): Promise<{
+        id_user: number;
+        email: string;
+        nombre: string;
+        paterno: string;
+        materno: string;
+        foto: string;
+        recetas: import("../recetas/entities/receta.entity.js").Receta[];
+    }>;
     remove(id_user: number): Promise<import("typeorm").DeleteResult>;
 }

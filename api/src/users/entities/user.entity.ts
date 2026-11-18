@@ -23,8 +23,8 @@ export class User {
     @Column({type: 'text'})
     foto: string;
 
-    @OneToMany('Receta', (receta: Receta) => receta.users)
-    recetas: Relation<Receta[]>;
+@OneToMany('Receta', (receta: Receta) => receta.user)  // <-- receta.user, no receta.users
+recetas: Receta[];
 
     @Column({type: 'varchar', length: '255'})
     password: string;

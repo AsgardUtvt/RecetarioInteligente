@@ -7,7 +7,15 @@ export declare class UsersController {
     create(createUserDto: CreateUserDto): Promise<import("./entities/user.entity.js").User>;
     findAll(): Promise<import("./entities/user.entity.js").User[]>;
     findOne(id: string): Promise<import("./entities/user.entity.js").User | null>;
-    update(id: string, updateUserDto: UpdateUserDto): Promise<import("typeorm").UpdateResult>;
+    update(id: string, updateUserDto: UpdateUserDto): Promise<{
+        id_user: number;
+        email: string;
+        nombre: string;
+        paterno: string;
+        materno: string;
+        foto: string;
+        recetas: import("../recetas/entities/receta.entity.js").Receta[];
+    }>;
     remove(id: string): Promise<import("typeorm").DeleteResult>;
     login(loginDto: {
         email: string;
@@ -19,6 +27,6 @@ export declare class UsersController {
         paterno: string;
         materno: string;
         foto: string;
-        recetas: import("typeorm").Relation<import("../recetas/entities/receta.entity.js").Receta[]>;
+        recetas: import("../recetas/entities/receta.entity.js").Receta[];
     }>;
 }

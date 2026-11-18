@@ -34,7 +34,7 @@ export const DrawerMenu = (props: any) => {
         <DrawerItem
           label="Cerrar Sesión"
           icon={({ size }) => (
-            <Text style={{ fontSize: size, color: 'red' }}>🚪</Text>
+            <Text style={{ fontSize: size, color: 'red' }}></Text>
           )}
           onPress={logout}
           labelStyle={{ color: 'red', fontWeight: 'bold' }}
@@ -45,9 +45,7 @@ export const DrawerMenu = (props: any) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 50,
-  },
+  container: { paddingTop: 50 },
   header: {
     paddingHorizontal: 20,
     paddingBottom: 20,
@@ -64,19 +62,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#8A2BE2',
   },
-  userName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  userEmail: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 4,
-  },
-  menuItems: {
-    flex: 1,
-  },
+  userName: { fontSize: 18, fontWeight: 'bold', color: '#333' },
+  userEmail: { fontSize: 14, color: '#666', marginTop: 4 },
+  menuItems: { flex: 1 },
   footer: {
     borderTopWidth: 1,
     borderTopColor: '#E0E0E0',

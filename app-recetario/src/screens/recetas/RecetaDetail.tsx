@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView, ActivityIndicator, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { mealDbApi } from '../../api/mealDbApi';
 import { Meal, MealDbDataResponse } from '../../interfaces/mealDbResponse';
-import { Colors } from '../../theme/appTheme';
+import { COLORS } from '../../theme/appTheme';
 
 export const DetailReceta = ({ route }: any) => {
   const { idMeal } = route.params;
@@ -89,36 +89,36 @@ const styles = StyleSheet.create({
   title: { 
       fontSize: 26, 
       fontWeight: 'bold', 
-      color: Colors.darkBlue, 
+      color: '#2C1810', 
       marginBottom: 5 
   },
   category: { 
       fontSize: 16, 
-      color: Colors.mediumBlue, 
+      color: COLORS.mediumBlue, 
       marginBottom: 15, 
       fontStyle: 'italic' 
   },
   subTitle: { 
       fontSize: 20, 
       fontWeight: 'bold', 
-      color: Colors.darkBlue, 
+      color: '#2C1810', 
       marginTop: 15, 
       marginBottom: 10 
   },
   text: { 
       fontSize: 16, 
-      color: Colors.textSecondary, 
+      color: COLORS.textSecondary, 
       lineHeight: 24 
   },
   button: { 
-      backgroundColor: Colors.orange, 
+      backgroundColor: COLORS.orange, 
       padding: 15, 
       borderRadius: 10, 
       marginTop: 20, 
       alignItems: 'center' 
   },
   buttonText: { 
-      color: Colors.white, 
+      color: COLORS.white, 
       fontWeight: 'bold', 
       fontSize: 16,
       letterSpacing: 1
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     borderWidth: 2,
-    borderColor: Colors.orange,
+    borderColor: COLORS.orange,
   },
   instructionsBox: {
     backgroundColor: '#F8FAFC',

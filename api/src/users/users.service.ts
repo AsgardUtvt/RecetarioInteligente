@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
@@ -48,26 +48,25 @@ export class UsersService {
     return await this.userRepository.findOneBy({ id_user });
   }
 
-  async update(id_user: number, data: UpdateUserDto) {
-    const { foto, ...rest } = data;
-    
-    if (data.password) {
-      const saltOrRounds = 10;
-      const hash = await bcrypt.hash(data.password, saltOrRounds);
-      
-      const new_data = {
-        ...rest,
-        password: hash,
-        foto: foto === null ? undefined : foto,
-      };
-      return await this.userRepository.update(id_user, new_data);
-    }
+async update(id_user: number, data: UpdateUserDto) {
+  const { foto, ...rest } = data;
+  const payload: any = { ...rest };
 
-    return await this.userRepository.update(id_user, {
-      ...rest,
-      foto: foto === null ? undefined : foto,
-    });
+  if (data.password) {
+    payload.password = await bcrypt.hash(data.password, 10);
   }
+  if (foto !== undefined) {
+    payload.foto = foto === null ? undefined : foto;
+  }
+
+  await this.userRepository.update(id_user, payload);
+
+  const updated = await this.userRepository.findOneBy({ id_user });
+  if (!updated) throw new NotFoundException('Usuario no encontrado');
+
+  const { password, ...result } = updated;
+  return result; // sin password, listo para el frontend
+}
 
   async remove(id_user: number) {
     return await this.userRepository.delete(id_user);
