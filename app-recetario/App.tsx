@@ -12,6 +12,7 @@ const RootNavigator = () => {
     <NavigationContainer>   {/* ÚNICO NavigationContainer del proyecto */}
       {authState.isLoggedIn ? <DrawerNavigatorMenu /> : <StackLoginNavigator />}
     </NavigationContainer>
+  );
 };
 
 export default function App() {

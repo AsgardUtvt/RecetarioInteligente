@@ -41,10 +41,10 @@ export const CrearCuentaScreen = ({ navigation }: Props) => {
         }
 
         try {
-            // 2. Limpiar el prefijo base64 antes de enviar al backend
+            // 2. Limpiar el prefijo base64 antes de enviar al backend (NestJS lo espera limpio para bytea)
             const rawBase64 = image64 ? image64.replace(/^data:image\/\w+;base64,/, "") : null;
 
-            // 3. Llamar al contexto (SIN id_user: 0, el backend lo genera auto-incremental)
+            // 3. Llamar al contexto (El backend genera el id auto-incremental, no se envía)
             await register({
                 email: form.email,
                 nombre: form.nombre,
