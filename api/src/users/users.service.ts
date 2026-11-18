@@ -17,7 +17,7 @@ export class UsersService {
     // login: Estaba incompleto. Falta comparar el hash.
     async login(data: UpdateUserDto) {
         const user = await this.userRepository.findOneBy({ email: data.email });
-        if (user && await bcrypt.compare(data.password, user.password)) {
+        if (user && user.password && data.password && await bcrypt.compare(data.password, user.password)) {
             return user; // Retorna el usuario si coincide
         }
         return null;

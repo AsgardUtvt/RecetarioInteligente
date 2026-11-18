@@ -3,12 +3,14 @@ import { LoginScreen } from "../screens/LoginScreen";
 import { HomeRecetas } from "../screens/recetas/HomeRecetas";
 import { CategoriaScreen } from "../screens/recetas/CategoriaScreen";
 import { DetailReceta } from "../screens/recetas/RecetaDetail";
+import { CrearCuentaScreen } from "../screens/users/CrearCuentaScreen";
 
 export type StackLoginParams = {
     LoginScreen: undefined;
     HomeRecetas: undefined;
     DetailReceta: undefined;
     CategoriaScreen: undefined;
+    CrearCuentaScreen: undefined;
 }
 
 const Stack = createNativeStackNavigator<StackLoginParams>();
@@ -30,13 +32,14 @@ export const StackLoginNavigator = () => {
                 options={{title: "Recetas"}}
             />
             <Stack.Screen
-                name="CategoriaScreen"
-                component={CategoriaScreen}
-            />
-            <Stack.Screen
                 name="DetailReceta"
                 component={DetailReceta}
                 options={{ title: 'Detalle'}}
+            />
+            <Stack.Screen 
+                name="CrearCuentaScreen"
+                component={CrearCuentaScreen}
+                options={{title: "Crear cuenta"}}
             />
         </Stack.Navigator>
     );

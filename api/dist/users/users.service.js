@@ -22,7 +22,7 @@ let UsersService = class UsersService {
     }
     async login(data) {
         const user = await this.userRepository.findOneBy({ email: data.email });
-        if (user && await bcrypt.compare(data.password, user.password)) {
+        if (user && user.password && data.password && await bcrypt.compare(data.password, user.password)) {
             return user;
         }
         return null;

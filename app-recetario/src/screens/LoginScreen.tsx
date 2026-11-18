@@ -24,6 +24,13 @@ export const LoginScreen = ({navigation}: Props) => {
                     <Text>Iniciar sesion</Text>
                 </TouchableOpacity>
             </View>
+            <View>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('CrearCuentaScreen')}
+                >
+                    <Text>Crear cuenta</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
