@@ -6,7 +6,7 @@ export const useImagePicker = () => {
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images'],   // <-- ASÍ, no ImagePicker.MediaType.Images
       allowsEditing: true,
       aspect: [1, 1],
       quality: 0.5,
@@ -14,12 +14,9 @@ export const useImagePicker = () => {
     });
 
     if (!result.canceled && result.assets[0].base64) {
-      // Guardamos con el prefijo para que el <Image> de RN lo renderice directo
       setImage64(`data:image/jpeg;base64,${result.assets[0].base64}`);
     }
   };
 
-  const clearImage = () => setImage64(null);
-
-  return { image64, pickImage, clearImage, setImage64 };
+  return { image64, pickImage };
 };

@@ -22,7 +22,7 @@ export class CreateUserDto {
 
     @IsString()
     @IsOptional()
-    foto: string;
+    foto: string | null;
 
     @IsString()
     password: string;

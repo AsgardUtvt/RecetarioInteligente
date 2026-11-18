@@ -9,4 +9,16 @@ export declare class UsersController {
     findOne(id: string): Promise<import("./entities/user.entity.js").User | null>;
     update(id: string, updateUserDto: UpdateUserDto): Promise<import("typeorm").UpdateResult>;
     remove(id: string): Promise<import("typeorm").DeleteResult>;
+    login(loginDto: {
+        email: string;
+        password: string;
+    }): Promise<{
+        id_user: number;
+        email: string;
+        nombre: string;
+        paterno: string;
+        materno: string;
+        foto: string;
+        recetas: import("typeorm").Relation<import("../recetas/entities/receta.entity.js").Receta[]>;
+    }>;
 }

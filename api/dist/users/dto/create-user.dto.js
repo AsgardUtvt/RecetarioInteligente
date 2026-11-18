@@ -42,7 +42,7 @@ __decorate([
 __decorate([
     IsString(),
     IsOptional(),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], CreateUserDto.prototype, "foto", void 0);
 __decorate([
     IsString(),

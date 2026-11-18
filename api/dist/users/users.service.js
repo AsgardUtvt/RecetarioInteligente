@@ -10,38 +10,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-import { Injectable } from '@nestjs/common';
-import { User } from './entities/user.entity.js';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
+import { User } from './entities/user.entity.js';
 let UsersService = class UsersService {
     userRepository;
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
-    async login(data) {
-        const user = await this.userRepository.findOneBy({ email: data.email });
-        if (user && user.password && data.password && await bcrypt.compare(data.password, user.password)) {
-            return user;
-        }
-        return null;
-    }
     async create(data) {
         const saltOrRounds = 10;
         const hash = await bcrypt.hash(data.password, saltOrRounds);
-        const new_data = { ...data, password: hash };
+        const { foto, ...rest } = data;
+        const new_data = {
+            ...rest,
+            password: hash,
+            foto: foto === null ? undefined : foto,
+        };
         const register = this.userRepository.create(new_data);
         return await this.userRepository.save(register);
     }
-    async update(id_user, data) {
-        if (data.password) {
-            const saltOrRounds = 10;
-            const hash = await bcrypt.hash(data.password, saltOrRounds);
-            const new_data = { ...data, password: hash };
-            return await this.userRepository.update(id_user, new_data);
+    async login(data) {
+        const user = await this.userRepository.findOneBy({ email: data.email });
+        if (user && user.password && await bcrypt.compare(data.password, user.password)) {
+            const { password, ...result } = user;
+            return result;
         }
-        return await this.userRepository.update(id_user, data);
+        throw new BadRequestException('Credenciales inválidas');
     }
     async findAll() {
         return await this.userRepository.find();
@@ -49,13 +46,30 @@ let UsersService = class UsersService {
     async findOne(id_user) {
         return await this.userRepository.findOneBy({ id_user });
     }
+    async update(id_user, data) {
+        const { foto, ...rest } = data;
+        if (data.password) {
+            const saltOrRounds = 10;
+            const hash = await bcrypt.hash(data.password, saltOrRounds);
+            const new_data = {
+                ...rest,
+                password: hash,
+                foto: foto === null ? undefined : foto,
+            };
+            return await this.userRepository.update(id_user, new_data);
+        }
+        return await this.userRepository.update(id_user, {
+            ...rest,
+            foto: foto === null ? undefined : foto,
+        });
+    }
     async remove(id_user) {
         return await this.userRepository.delete(id_user);
     }
 };
 UsersService = __decorate([
     Injectable(),
-    __param(0, InjectRepository(User, 'postgres-connection')),
+    __param(0, InjectRepository(User)),
     __metadata("design:paramtypes", [Repository])
 ], UsersService);
 export { UsersService };

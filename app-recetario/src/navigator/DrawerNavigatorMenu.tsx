@@ -1,6 +1,6 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useWindowDimensions, View, Text } from "react-native";
-import { DrawerNavigatorMenu as DrawerMenuCustom } from "../components/DrawerMenu"; // Ajusta la ruta
+import { DrawerMenu as DrawerMenuCustom } from "../components/DrawerMenu"; // Ajusta la ruta
 import { HomeRecetas } from "../screens/recetas/HomeRecetas";
 import { UserScreen } from "../screens/User/UserScreen";
 

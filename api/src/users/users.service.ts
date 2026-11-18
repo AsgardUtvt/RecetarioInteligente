@@ -1,57 +1,75 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import * as bcrypt from 'bcryptjs';
+import { User } from './entities/user.entity.js'; // Ajusta la ruta si es necesario
 import { CreateUserDto } from './dto/create-user.dto.js';
 import { UpdateUserDto } from './dto/update-user.dto.js';
-import {User} from './entities/user.entity.js';
-import {InjectRepository} from '@nestjs/typeorm';
-import {Repository} from 'typeorm';
-import bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
-    constructor(
-        @InjectRepository(User, 'postgres-connection')
-        private userRepository: Repository<User>
+  constructor(
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+  ) {}
 
-    ){}
+  async create(data: CreateUserDto) {
+    const saltOrRounds = 10;
+    const hash = await bcrypt.hash(data.password, saltOrRounds);
+    
+    // Desestructuramos para manejar 'foto' por separado y convertir null a undefined
+    const { foto, ...rest } = data;
+    
+    const new_data = {
+      ...rest,
+      password: hash,
+      foto: foto === null ? undefined : foto, // TypeORM prefiere undefined sobre null
+    };
 
-    // login: Estaba incompleto. Falta comparar el hash.
-    async login(data: UpdateUserDto) {
-        const user = await this.userRepository.findOneBy({ email: data.email });
-        if (user && user.password && data.password && await bcrypt.compare(data.password, user.password)) {
-            return user; // Retorna el usuario si coincide
-        }
-        return null;
+    const register = this.userRepository.create(new_data);
+    return await this.userRepository.save(register);
+  }
+
+  async login(data: { email: string; password: string }) {
+    const user = await this.userRepository.findOneBy({ email: data.email });
+    
+    if (user && user.password && await bcrypt.compare(data.password, user.password)) {
+      const { password, ...result } = user;
+      return result;
+    }
+    throw new BadRequestException('Credenciales inválidas');
+  }
+
+  async findAll() {
+    return await this.userRepository.find();
+  }
+
+  async findOne(id_user: number) {
+    return await this.userRepository.findOneBy({ id_user });
+  }
+
+  async update(id_user: number, data: UpdateUserDto) {
+    const { foto, ...rest } = data;
+    
+    if (data.password) {
+      const saltOrRounds = 10;
+      const hash = await bcrypt.hash(data.password, saltOrRounds);
+      
+      const new_data = {
+        ...rest,
+        password: hash,
+        foto: foto === null ? undefined : foto,
+      };
+      return await this.userRepository.update(id_user, new_data);
     }
 
-    // create y update: Corregido typo y agregado return
-    async create(data: CreateUserDto) {
-        const saltOrRounds = 10;
-        const hash = await bcrypt.hash(data.password, saltOrRounds);
-        const new_data = { ...data, password: hash };
-        const register = this.userRepository.create(new_data);
-        return await this.userRepository.save(register);
-    }
+    return await this.userRepository.update(id_user, {
+      ...rest,
+      foto: foto === null ? undefined : foto,
+    });
+  }
 
-    async update(id_user: number, data: UpdateUserDto) {
-        if (data.password) {
-            const saltOrRounds = 10;
-            const hash = await bcrypt.hash(data.password, saltOrRounds);
-            const new_data = { ...data, password: hash };
-            return await this.userRepository.update(id_user, new_data);
-        }
-        return await this.userRepository.update(id_user, data);
-    }
-
-    async findAll() {
-        return await this.userRepository.find();
-    }
-
-    async findOne(id_user: number) {
-        return await this.userRepository.findOneBy({id_user});
-    }
-
-
-    async remove(id_user: number) {
-        return await this.userRepository.delete(id_user);
-    }
+  async remove(id_user: number) {
+    return await this.userRepository.delete(id_user);
+  }
 }

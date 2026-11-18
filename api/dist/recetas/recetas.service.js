@@ -55,7 +55,7 @@ let RecetasService = class RecetasService {
 };
 RecetasService = __decorate([
     Injectable(),
-    __param(0, InjectRepository(Receta, 'postgres-connection')),
+    __param(0, InjectRepository(Receta)),
     __metadata("design:paramtypes", [Repository])
 ], RecetasService);
 export { RecetasService };

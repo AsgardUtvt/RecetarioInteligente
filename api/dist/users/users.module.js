@@ -14,10 +14,10 @@ let UsersModule = class UsersModule {
 UsersModule = __decorate([
     Module({
         imports: [
-            TypeOrmModule.forFeature([User], 'postgres-connection')
+            TypeOrmModule.forFeature([User])
         ],
         controllers: [UsersController],
-        providers: [UsersService],
+        providers: [UsersService]
     })
 ], UsersModule);
 export { UsersModule };

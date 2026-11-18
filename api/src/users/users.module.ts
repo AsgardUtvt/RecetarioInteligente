@@ -6,9 +6,9 @@ import {User} from './entities/user.entity.js';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([User], 'postgres-connection')
+        TypeOrmModule.forFeature([User])
     ],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService]
 })
 export class UsersModule {}

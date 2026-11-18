@@ -6,7 +6,7 @@ import {Receta} from './entities/receta.entity.js';
 
 @Module({
     imports:[
-        TypeOrmModule.forFeature([Receta], 'postgres-connection')
+        TypeOrmModule.forFeature([Receta])
     ],
   controllers: [RecetasController],
   providers: [RecetasService],

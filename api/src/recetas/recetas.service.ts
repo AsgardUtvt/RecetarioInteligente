@@ -10,7 +10,7 @@ import {ReturningResultsEntityUpdator} from 'typeorm/query-builder/ReturningResu
 @Injectable()
 export class RecetasService {
     constructor(
-        @InjectRepository(Receta, 'postgres-connection')
+        @InjectRepository(Receta)
         private recetaRepository: Repository<Receta>
     ){}
     async findAll() {

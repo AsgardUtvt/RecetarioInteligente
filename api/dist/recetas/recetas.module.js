@@ -14,7 +14,7 @@ let RecetasModule = class RecetasModule {
 RecetasModule = __decorate([
     Module({
         imports: [
-            TypeOrmModule.forFeature([Receta], 'postgres-connection')
+            TypeOrmModule.forFeature([Receta])
         ],
         controllers: [RecetasController],
         providers: [RecetasService],

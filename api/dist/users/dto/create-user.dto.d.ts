@@ -4,6 +4,6 @@ export declare class CreateUserDto {
     nombre: string;
     paterno: string;
     materno: string;
-    foto: string;
+    foto: string | null;
     password: string;
 }
